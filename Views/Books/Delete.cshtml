@@ -1,0 +1,17 @@
+@model KutuphaneYonetim.Models.Book
+
+@{
+    ViewData["Title"] = "Kitap Sil";
+}
+
+<h2>Silme Onayı</h2>
+
+<div class="alert alert-warning">
+    <strong>@Model.Title</strong> kitabını silmek istediğine emin misin?
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger" type="submit">Evet, Sil</button>
+    <a class="btn btn-secondary" asp-action="Index">Vazgeç</a>
+</form>
