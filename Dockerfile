@@ -2,11 +2,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# Proje dosyasını kopyalayıp bağımlılıkları geri yüklüyoruz
 COPY *.csproj ./
 RUN dotnet restore
 
-# Diğer tüm dosyaları kopyalayıp yayınlıyoruz
 COPY . ./
 RUN dotnet publish -c Release -o out
 
@@ -14,4 +12,9 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app/out .
+
+# Render PORT verir; uygulama o porta dinlesin
+ENV ASPNETCORE_URLS=http://0.0.0.0:${PORT}
+EXPOSE 8080
+
 ENTRYPOINT ["dotnet", "KutuphaneYonetim.dll"]
